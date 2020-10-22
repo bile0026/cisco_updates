@@ -4,6 +4,8 @@
 - name: Gather device information
   cisco.ios.ios_facts:
     gather_subset: min
+  vars:
+    ansible_network_os: ios
 
 - name: Deploy IOS to Cisco 3560-CX
   import_tasks: update_cisco_3560_cx.yml
