@@ -1,15 +1,25 @@
 ---
-- name: Copy Image // This could take up to 4 minutes
-  ansible.netcommon.net_put:
-    src: "ios_files/{{ 3560_cx_ios_file }}"
-    dest: "flash:/{{ 3560_cx_ios_file }}"
+- name: Copy 3560CX Image // This could take up to {{ ios_copy_timeout }} seconds
+  # ansible.netcommon.net_put:
+  #   src: /ios_updates/ios_file_3560_cx
+  #   dest: flash:ios_file_3560_cx
+  cisco.ios.ios_command:
+    commands:
+      - command: "copy tftp://{{ tftp_server }}/{{ ios_file_3560_cx }} flash:{{ ios_file_3560_cx }}"
+        # prompt: "Destination filename [{{ ios_file_3560_cx }}]?"
+        prompt:
+          - "]?"
+          - "[confirm]"
+        answer:
+          - "\r"
+          - "\r"
   vars:
     ansible_command_timeout: "{{ ios_copy_timeout }}"
 
 - name: Change Boot Variable to new image
   cisco.ios.ios_config:
     commands:
-      - "boot system flash:{{ 3560_cx_ios_file }}"
+      - "boot system flash:{{ ios_file_3560_cx }}"
     save_when: always
 
 - name: reboot ios device
@@ -22,6 +32,7 @@
       - y
       - y
 
+  # check_mode: True
 - name: reset the connection
   meta: reset_connection
 
