@@ -2,8 +2,7 @@
 - name: Check for online hosts
   hosts: all
   gather_facts: false
-  vars:
-    check_mode: False
+  check_mode: False
 
   tasks:
     - name: Ping for reachability
@@ -18,6 +17,8 @@
 
 - name: Deploy IOS Code to Devices
   hosts: reachable
+  connection: network_cli
+
   gather_facts: false
 
   tasks:
