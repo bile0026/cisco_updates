@@ -1,2 +1,15 @@
 ---
 # tasks file for cisco_updates
+
+- name: Gather device information
+  cisco.ios.ios_facts:
+    gather_subset: min
+  register: ios_facts
+
+- name: Deploy IOS to Cisco 3560-CX
+  import_tasks: update_cisco_3560_cx.yml
+  when: ansible_net_model == 'WS-C3560CX-12PC-S'
+
+- name: Deploy IOS to Cisco 3560-CG
+  import_tasks: update_cisco_3560_cg.yml
+  when: ansible_net_model == 'WS-C3560CG-8PC-S'
