@@ -4,12 +4,31 @@
 - name: Gather device information
   cisco.ios.ios_facts:
     gather_subset: min
-  register: ios_facts
 
 - name: Deploy IOS to Cisco 3560-CX
   import_tasks: update_cisco_3560_cx.yml
-  when: ansible_net_model == 'WS-C3560CX-12PC-S'
+  when:
+    - ansible_net_model == 'WS-C3560CX-12PC-S'
+    - not ansible_net_version == {{ ios_version }}
 
 - name: Deploy IOS to Cisco 3560-CG
   import_tasks: update_cisco_3560_cg.yml
-  when: ansible_net_model == 'WS-C3560CG-8PC-S'
+  when:
+    - ansible_net_model == 'WS-C3560CG-8PC-S'
+    - not ansible_net_version == {{ ios_version }}
+# Not needed for now
+# - name: Gather device information
+#   cisco.ios.ios_facts:
+#     gather_subset: min
+
+# - name: Assert that the IOS Version is Correct
+#   assert:
+#     that:
+#       - ios_version == ansible_net_version
+#   when: ansible_net_iostype == 'IOS'
+
+# - name: Assert that the IOS-XE Version is Correct
+#   assert:
+#     that:
+#       - ios_version == ansible_net_version
+#   when: ansible_net_iostype == 'IOS-XE'
