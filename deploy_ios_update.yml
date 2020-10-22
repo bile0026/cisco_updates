@@ -1,0 +1,28 @@
+---
+- name: Check for online hosts
+  hosts: all
+  gather_facts: false
+  vars_files:
+    - palo_vars.yml
+
+  tasks:
+    - name: Ping for reachability
+      command: ping -c3 {{ ansible_host }}
+      delegate_to: localhost
+      register: ping_result
+      ignore_errors: true
+
+    - group_by:
+        key: reachable
+      when: ping_result.rc == 0
+
+- name: Deploy IOS Code to Devices
+  hosts: reachable
+  gather_facts: false
+  collections:
+    - cisco.ios
+
+  tasks:
+    - name: Import cisco_updates role
+      import_role:
+        name: cisco_updates
