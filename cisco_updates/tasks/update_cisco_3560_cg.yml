@@ -33,7 +33,7 @@
     commands:
       - "boot system flash:{{ ios_file_3560_cg }}"
     save_when: always
-  when: md5_check.stdout is search("{{ ios_checksum_3560_cg }}")
+  when: md5_check.stdout in search(ios_checksum_3560_cg)
   register: boot_change
 
 - name: reboot ios device
