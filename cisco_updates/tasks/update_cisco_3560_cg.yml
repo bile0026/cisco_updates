@@ -11,7 +11,6 @@
   cisco.ios.ios_command:
     commands:
       - command: "copy tftp://{{ tftp_server }}/{{ ios_file_3560_cg }} flash:{{ ios_file_3560_cg }}"
-        # prompt: "Destination filename [{{ ios_file_3560_cx }}]?"
         prompt:
           - "]?"
           - "[confirm]"
@@ -21,11 +20,21 @@
   vars:
     ansible_command_timeout: "{{ ios_copy_timeout }}"
 
+- name: Verify MD5 Checksum of Image
+  cisco.ios.ios_command:
+    commands:
+      - command: "verify /md5 flash:{{ ios_file_3560_cg }}"
+  register: md5_check
+  vars:
+    ansible_command_timeout: 60
+
 - name: Change Boot Variable to new image
   cisco.ios.ios_config:
     commands:
       - "boot system flash:{{ ios_file_3560_cg }}"
     save_when: always
+  when: md5_check.stdout is search("{{ ios_checksum_3560_cg }}")
+  register: boot_change
 
 - name: reboot ios device
   cli_command:
@@ -36,21 +45,11 @@
     answer:
       - y
       - y
+  when: boot_change.changed
 
-  # check_mode: True
 - name: reset the connection
   meta: reset_connection
 
 - name: Wait for the network device to reload
   wait_for_connection:
     delay: "{{ ios_reboot_timeout }}"
-
-- name: Gather facts post reboot
-  cisco.ios.ios_facts:
-    gather_subset: min
-
-- name: Assert that ios is the correct version
-  assert:
-    that:
-      - ansible_net_version == {{ ios_version }}
-  ignore_errors: True
