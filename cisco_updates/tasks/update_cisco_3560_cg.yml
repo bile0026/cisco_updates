@@ -6,8 +6,8 @@
 
 - name: Copy 3560CG Image // This could take up to {{ ios_copy_timeout }} seconds
   # ansible.netcommon.net_put:
-  #   src: /ios_updates/ios_file_3560_cg
-  #   dest: flash:ios_file_3560_cg
+  #   src: "ios_files/{{ ios_file_3560_cg }}"
+  #   dest: "flash:{{ ios_file_3560_cg }}"
   cisco.ios.ios_command:
     commands:
       - command: "copy tftp://{{ tftp_server }}/{{ ios_file_3560_cg }} flash:{{ ios_file_3560_cg }}"
