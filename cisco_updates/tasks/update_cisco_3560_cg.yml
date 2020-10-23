@@ -24,6 +24,9 @@
   cisco.ios.ios_command:
     commands:
       - command: "verify /md5 flash:{{ ios_file_3560_cg }}"
+    wait_for:
+      - result[0] contains {{ ios_checksum_3560_cg }}
+    retries: 1
   register: md5_check
   vars:
     ansible_command_timeout: 60
@@ -33,7 +36,7 @@
     commands:
       - "boot system flash:{{ ios_file_3560_cg }}"
     save_when: always
-  when: md5_check.stdout in search(ios_checksum_3560_cg)
+  when: md5_check
   register: boot_change
 
 - name: reboot ios device
