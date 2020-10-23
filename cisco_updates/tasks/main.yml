@@ -23,13 +23,13 @@
   cisco.ios.ios_facts:
     gather_subset: min
 
-- name: Assert that the IOS Version is Correct
+- name: Assert that the IOS Version on 3560CG Switches is Correct
   assert:
     that:
       - ansible_net_version == ios_cg_version
   when: ansible_net_model == 'WS-C3560CG-8PC-S'
 
-- name: Assert that the IOS Version is Correct
+- name: Assert that the IOS Version on 3560CX Switches is Correct
   assert:
     that:
       - ansible_net_version == ios_cx_version
