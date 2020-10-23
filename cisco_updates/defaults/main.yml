@@ -1,8 +1,8 @@
 ---
 # defaults file for cisco_updates
 
-tftp_server: 10.74.12.20
-
+tftp_server: 10.205.101.38
+tftp_blocksize: 1468 # theoretical best max for 1500 MTU network
 # timeouts
 ios_copy_timeout: 600
 ios_reboot_timeout: 300
