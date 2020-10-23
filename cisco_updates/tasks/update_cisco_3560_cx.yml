@@ -49,7 +49,6 @@
       - y
       - y
   when: boot_change.changed
-  check_mode: true
 
 - name: reset the connection
   meta: reset_connection
