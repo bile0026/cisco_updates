@@ -40,38 +40,39 @@
   when: md5_check
   register: boot_change
 
-- name: Install package when single switch
-  cisco.ios.ios_command:
-    commands:
-      - command: "request platform software package install switch all file flash:<filename> "
-    wait_for:
-      - result
-    retries: 1
-  register: package_install_single
-  vars:
-    ansible_command_timeout: 60
-  when: ansible_net_stacked_models.length() < 2
+# not necessary?
+# - name: Install package when single switch
+#   cisco.ios.ios_command:
+#     commands:
+#       - command: "request platform software package install switch all file flash:{{ ios_xe_file_9000 }} "
+#     wait_for:
+#       - result
+#     retries: 1
+#   register: package_install_single
+#   vars:
+#     ansible_command_timeout: 60
+#   when: ansible_net_stacked_models.length() < 2
 
-- name: Install package when stacked switches
-  cisco.ios.ios_command:
-    commands:
-      - command: "request platrorm software package install switch all file flash:<filename> auto-copy"
-    wait_for:
-      - result
-    retries: 1
-  register: package_install_stack
-  vars:
-    ansible_command_timeout: 60
-  when: ansible_net_stacked_models.length() > 1
+# - name: Install package when stacked switches
+#   cisco.ios.ios_command:
+#     commands:
+#       - command: "request platrorm software package install switch all file flash:{{ ios_xe_file_9000 }} auto-copy"
+#     wait_for:
+#       - result
+#     retries: 1
+#   register: package_install_stack
+#   vars:
+#     ansible_command_timeout: 60
+#   when: ansible_net_stacked_models.length() > 1
 
 - name: Activate new image
   cisco.ios.ios_command:
     commands:
-      - command: "install add file flash:<filename> activate commit"
-    wait_for:
-      - result
-    retries: 1
-  register: image_activate
+      - command: "install add file flash:{{ ios_xe_file_9000 }} activate commit"
+    prompt:
+      - This operation requires a reload of the system. Do you want to proceed? [y/n]
+    answer: y
+  register: boot_change
   when: package_install_single or package_install_stack
 
 - name: Save the switch configuration
@@ -79,20 +80,22 @@
     commands:
       - command: "write memory"
 
-- name: reboot ios device
-  cli_command:
-    command: reload
-    prompt:
-      - Save?
-      - confirm
-    answer:
-      - y
-      - y
-  when: image_activate
+# not necessary?
+# - name: reboot ios device
+#   cli_command:
+#     command: reload
+#     prompt:
+#       - Save?
+#       - confirm
+#     answer:
+#       - y
+#       - y
+#   when: image_activate
 
 - name: reset the connection
   meta: reset_connection
 
 - name: Wait for the network device to reload
   wait_for_connection:
-    delay: "{{ ios_reboot_timeout }}"
+    delay: "{{ ios_xe_reboot_timeout }}"
+  notify: cleanup ios xe packages
