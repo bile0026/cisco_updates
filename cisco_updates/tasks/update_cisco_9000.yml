@@ -1,0 +1,33 @@
+---
+# not necessary?
+# - name: Update TFTP Blocksize to optimize IOS transfer
+#   cisco.ios.ios_config:
+#     commands:
+#       - "ip tftp blocksize {{ tftp_blocksize }}"
+
+- name: Copy 9000 Series Image // This could take up to {{ ios_xe_copy_timeout }} seconds
+  # ansible.netcommon.net_put:
+  #   src: "ios_files/{{ ios_file_3560_cx }}"
+  #   dest: "flash:{{ ios_file_3560_cx }}"
+  cisco.ios.ios_command:
+    commands:
+      - command: "copy tftp://{{ tftp_server }}/{{ ios_xe_file_9000 }} flash:{{ ios_xe_file_9000 }}"
+        prompt:
+          - "]?"
+          - "[confirm]"
+        answer:
+          - "\r"
+          - "\r"
+  vars:
+    ansible_command_timeout: "{{ ios_xe_copy_timeout }}"
+
+- name: Verify MD5 Checksum of Image
+  cisco.ios.ios_command:
+    commands:
+      - command: "verify /md5 flash:{{ ios_xe_file_9000 }}"
+    wait_for:
+      - result[0] contains {{ ios_xe_checksum_9000 }}
+    retries: 1
+  register: md5_check
+  vars:
+    ansible_command_timeout: 60

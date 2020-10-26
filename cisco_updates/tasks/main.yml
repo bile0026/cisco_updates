@@ -7,17 +7,23 @@
   vars:
     ansible_network_os: ios
 
-- name: Deploy IOS to Cisco 3560-CX
+- name: Deploy IOS to Cisco 3560-CX Switches
   import_tasks: update_cisco_3560_cx.yml
   when:
     - ansible_net_model == 'WS-C3560CX-12PC-S'
     - not ansible_net_version == ios_cx_version
 
-- name: Deploy IOS to Cisco 3560-CG
+- name: Deploy IOS to Cisco 3560-CG Switches
   import_tasks: update_cisco_3560_cg.yml
   when:
     - ansible_net_model == 'WS-C3560CG-8PC-S'
     - not ansible_net_version == ios_cg_version
+
+- name: Deploy IOS-XE to Cisco 9000 Switches
+  import_tasks: update_cisco_9000.yml
+  when:
+    - ansible_net_model == 'C9300-24U' or ansible_net_model == 'C9300-48U'
+    - not ansible_net_version == ios_xe_version
 
 - name: Gather device information
   cisco.ios.ios_facts:

@@ -21,5 +21,5 @@ ios_checksum_3560_cx: 17d91bba7d6f5780c491cd635685a260
 
 # versions for 9000 Switches
 ios_xe_verison: "16.09.05"
-ios_xe_file_9300: cat9k_iosxe.16.09.05.SPA.bin
-ios_xe_checksum_9300: b8940c4e0b023d8846b03187b48f396d
+ios_xe_file_9000: cat9k_iosxe.16.09.05.SPA.bin
+ios_xe_checksum_9000: b8940c4e0b023d8846b03187b48f396d
