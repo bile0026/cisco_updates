@@ -5,5 +5,7 @@
   cisco.ios.ios_command:
     commands:
       - command: "request platform software package clean switch all"
+    prompt: Do you want to proceed? [y/n]
+    answer: y
   vars:
     ansible_command_timeout: 120
