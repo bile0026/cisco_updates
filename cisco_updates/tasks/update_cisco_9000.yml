@@ -40,31 +40,6 @@
   when: md5_check
   register: boot_change
 
-# not necessary?
-# - name: Install package when single switch
-#   cisco.ios.ios_command:
-#     commands:
-#       - command: "request platform software package install switch all file flash:{{ ios_xe_file_9000 }} "
-#     wait_for:
-#       - result
-#     retries: 1
-#   register: package_install_single
-#   vars:
-#     ansible_command_timeout: 60
-#   when: ansible_net_stacked_models.length() < 2
-
-# - name: Install package when stacked switches
-#   cisco.ios.ios_command:
-#     commands:
-#       - command: "request platrorm software package install switch all file flash:{{ ios_xe_file_9000 }} auto-copy"
-#     wait_for:
-#       - result
-#     retries: 1
-#   register: package_install_stack
-#   vars:
-#     ansible_command_timeout: 60
-#   when: ansible_net_stacked_models.length() > 1
-
 - name: Activate new image
   cisco.ios.ios_command:
     commands:
@@ -74,23 +49,6 @@
     answer: y
   register: boot_change
   when: package_install_single or package_install_stack
-
-- name: Save the switch configuration
-  cisco.ios.ios_command:
-    commands:
-      - command: "write memory"
-
-# not necessary?
-# - name: reboot ios device
-#   cli_command:
-#     command: reload
-#     prompt:
-#       - Save?
-#       - confirm
-#     answer:
-#       - y
-#       - y
-#   when: image_activate
 
 - name: reset the connection
   meta: reset_connection
