@@ -6,8 +6,8 @@ tftp_blocksize: 1468 # theoretical best max for 1500 MTU network
 # timeouts
 ios_copy_timeout: 600
 ios_reboot_timeout: 300
-ios_xe_copy_timeout:
-ios_xe_reboot_timeout:
+ios_xe_copy_timeout: 600
+ios_xe_reboot_timeout: 300
 
 # versions for 3560CG Switches
 ios_cg_version: "12.5(2)E10"
