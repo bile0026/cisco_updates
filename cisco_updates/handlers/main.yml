@@ -1,2 +1,9 @@
 ---
 # handlers file for cisco_updates
+
+- name: cleanup ios xe packages
+  cisco.ios.ios_command:
+    commands:
+      - command: "request platform software package clean switch all"
+  vars:
+    ansible_command_timeout: 120
