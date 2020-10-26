@@ -49,6 +49,8 @@
     answer: y
   register: boot_change
   when: package_install_single or package_install_stack
+  vars:
+    ansible_command_timeout: "{{ ios_xe_copy_timeout }}"
 
 - name: reset the connection
   meta: reset_connection
