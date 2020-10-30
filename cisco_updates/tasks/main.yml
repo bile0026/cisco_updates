@@ -33,22 +33,22 @@
   assert:
     that:
       - ansible_net_version == ios_cg_version
+    fail_msg: "Cisco 3560CG Switches should be on version ios_cg_version"
+    success_msg: "IOS Version is Correct"
   when: ansible_net_model == 'WS-C3560CG-8PC-S'
-  fail_msg: "Cisco 3560CG Switches should be on version ios_cg_version"
-  success_msg: "IOS Version is Correct"
 
 - name: Assert that the IOS Version on 3560CX Switches is Correct
   assert:
     that:
       - ansible_net_version == ios_cx_version
+    fail_msg: "Cisco 3560CX Switches should be on version ios_cx_version"
+    success_msg: "IOS Version is Correct"
   when: ansible_net_model == 'WS-C3560CX-12PC-S'
-  fail_msg: "Cisco 3560CX Switches should be on version ios_cx_version"
-  success_msg: "IOS Version is Correct"
 
 - name: Assert that the IOS-XE Version on Catalyst 9K Switches is Correct
   assert:
     that:
       - ansible_net_version == ios_xe_version
+    fail_msg: "Cisco Catalyst 9k Switches should be on version ios_xe_version"
+    success_msg: "IOS-XE Version is Correct"
   when: ansible_net_model == 'C9300-24U' or ansible_net_model == 'C9300-48U' or ansible_net_model == 'C9500-40X'
-  fail_msg: "Cisco Catalyst 9k Switches should be on version ios_xe_version"
-  success_msg: "IOS-XE Version is Correct"
