@@ -5,6 +5,10 @@ deploy IOS updates to Cisco Devices
 Deploys Cisco IOS/IOS-XE Code to devices. Checks MD5 checksum prior to actually installing/changing boot variables to ensure image is intact. May need to tweak transfer timeout variables for your environment, and depending on models of devices.
 
 # currently supported/tested devices
+- C9300-24U
+- C9300-48U
+- C9500-16X
+- C9500-40X
 - WS-C3560CX-12PC-S
 - WS-C3560CG-8PC-S
 
