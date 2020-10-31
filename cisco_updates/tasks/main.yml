@@ -22,7 +22,7 @@
 - name: Deploy IOS-XE to Cisco Catalyst 9k Switches
   import_tasks: update_cisco_9000.yml
   when:
-    - ansible_net_model == 'C9300-24U' or ansible_net_model == 'C9300-48U'  or ansible_net_model == 'C9500-40X'
+    - ansible_net_model == 'C9300-24U' or ansible_net_model == 'C9300-48U'  or ansible_net_model == 'C9500-40X' or ansible_net_model == 'C9500-16X'
     - not ansible_net_version == ios_xe_version
 
 - name: Gather device information
@@ -51,4 +51,4 @@
       - ansible_net_version == ios_xe_version
     fail_msg: "Cisco Catalyst 9k Switches should be on version {{ ios_xe_version }}"
     success_msg: "IOS-XE Version is Correct"
-  when: ansible_net_model == 'C9300-24U' or ansible_net_model == 'C9300-48U' or ansible_net_model == 'C9500-40X'
+  when: ansible_net_model == 'C9300-24U' or ansible_net_model == 'C9300-48U' or ansible_net_model == 'C9500-40X' or ansible_net_model == 'C9500-16X'
