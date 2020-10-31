@@ -30,7 +30,7 @@
     retries: 1
   register: md5_check
   vars:
-    ansible_command_timeout: 60
+    ansible_command_timeout: 90
 
 - name: Change Boot Variable to new image
   cisco.ios.ios_config:
@@ -40,15 +40,12 @@
   when: md5_check
   register: boot_change
 
-- name: Activate new image
+- name: Activate new image on Catalyst 9000 Series Switches
   cisco.ios.ios_command:
     commands:
-      - command: "install add file flash:{{ ios_xe_file_9000 }} activate commit"
-    prompt:
-      - This operation requires a reload of the system. Do you want to proceed? [y/n]
-    answer: y
-  register: boot_change
-  when: package_install_single or package_install_stack
+      - command: "install add file flash:{{ ios_xe_file_9000 }} activate commit prompt-level none"
+  when: boot_change.changed
+  register: activate_image
   vars:
     ansible_command_timeout: "{{ ios_xe_copy_timeout }}"
 
