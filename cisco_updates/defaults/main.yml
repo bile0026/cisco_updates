@@ -20,6 +20,6 @@ ios_file_3560_cx: c3560cx-universalk9-mz.152-7.E2.bin
 ios_checksum_3560_cx: 17d91bba7d6f5780c491cd635685a260
 
 # versions for 9000 Switches
-ios_xe_version: "16.09.05"
-ios_xe_file_9000: cat9k_iosxe.16.09.05.SPA.bin
-ios_xe_checksum_9000: b8940c4e0b023d8846b03187b48f396d
+ios_xe_version: "16.09.06"
+ios_xe_file_9000: cat9k_iosxe.16.09.06.SPA.bin
+ios_xe_checksum_9000: 75716544ed6a641e04f43fcc9eebd6f5
